@@ -1,0 +1,48 @@
+2018-07-28 17:58:15,254 - INFO - Element found with locator_properties: //input[@id='sum1'] and locator_type: xpath
+2018-07-28 17:58:15,313 - INFO - Sent data to the element with locator_properties: //input[@id='sum1'] and locator_type: xpath
+2018-07-28 17:58:15,338 - INFO - Element found with locator_properties: //input[@id='sum2'] and locator_type: xpath
+2018-07-28 17:58:15,396 - INFO - Sent data to the element with locator_properties: //input[@id='sum2'] and locator_type: xpath
+2018-07-28 17:58:15,434 - INFO - Element is clickable with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2018-07-28 17:58:15,451 - INFO - Element found with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2018-07-28 17:58:15,524 - INFO - Clicked on the element with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2018-07-28 17:58:15,544 - INFO - Element found with locator_properties: //span[@id='displayvalue'] and locator_type: xpath
+2018-07-28 17:58:15,558 - INFO - The text is: '11'
+2018-07-28 17:58:15,558 - INFO - Actual Text From Application Web UI --> :: 11
+2018-07-28 17:58:15,558 - INFO - Expected Text From Application Web UI --> :: 12
+2018-07-28 17:58:15,558 - INFO - ### VERIFICATION TEXT DOES NOT MATCHED !!!
+2018-07-28 17:58:15,558 - ERROR - ### VERIFICATION FAILED :: test_invalid_addition
+2018-07-28 17:58:15,837 - INFO - Screenshot saved to directory: C:\Users\abhilash.sharma\Desktop\Abhilash04_GitRepo\FEAT\SupportLibraries\../Logs/Screenshots/test_invalid_addition.1532780895559.png
+2018-07-28 17:58:15,840 - ERROR - ### test_invalid_addition ### TEST FAILED
+2018-07-28 17:58:24,970 - INFO - Element found with locator_properties: //input[@id='sum1'] and locator_type: xpath
+2018-07-28 17:58:25,048 - INFO - Sent data to the element with locator_properties: //input[@id='sum1'] and locator_type: xpath
+2018-07-28 17:58:25,072 - INFO - Element found with locator_properties: //input[@id='sum2'] and locator_type: xpath
+2018-07-28 17:58:25,129 - INFO - Sent data to the element with locator_properties: //input[@id='sum2'] and locator_type: xpath
+2018-07-28 17:58:25,165 - INFO - Element is clickable with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2018-07-28 17:58:25,180 - INFO - Element found with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2018-07-28 17:58:25,245 - INFO - Clicked on the element with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2018-07-28 17:58:25,264 - INFO - Element found with locator_properties: //span[@id='displayvalue'] and locator_type: xpath
+2018-07-28 17:58:25,278 - INFO - The text is: '15'
+2018-07-28 17:58:25,278 - INFO - Actual Text From Application Web UI --> :: 15
+2018-07-28 17:58:25,278 - INFO - Expected Text From Application Web UI --> :: 15
+2018-07-28 17:58:25,278 - INFO - ### VERIFICATION TEXT MATCHED !!!
+2018-07-28 17:58:25,278 - INFO - ### VERIFICATION SUCCESSFUL :: test_valid_addition
+2018-07-28 17:58:25,278 - INFO - ### test_valid_addition### TEST SUCCESSFUL
+2018-07-28 17:58:34,385 - INFO - Element found with locator_properties: //input[@id='user-message'] and locator_type: xpath
+2018-07-28 17:58:34,522 - INFO - Sent data to the element with locator_properties: //input[@id='user-message'] and locator_type: xpath
+2018-07-28 17:58:34,561 - INFO - Element is clickable with locator_properties: //button[text()='Show Message'] and locator_type: xpath
+2018-07-28 17:58:34,575 - INFO - Element found with locator_properties: //button[text()='Show Message'] and locator_type: xpath
+2018-07-28 17:58:34,614 - INFO - Clicked on the element with locator_properties: //button[text()='Show Message'] and locator_type: xpath
+2018-07-28 17:58:34,631 - INFO - Element found with locator_properties: //div[@id='user-message']//following::span[@id='display'] and locator_type: xpath
+2018-07-28 17:58:34,647 - INFO - The text is: 'Welcome Selenium Learner'
+2018-07-28 17:58:34,647 - INFO - Actual Text From Application Web UI --> :: Welcome Selenium Learner
+2018-07-28 17:58:34,647 - INFO - Expected Text From Application Web UI --> :: Welcome Selenium Learner
+2018-07-28 17:58:34,647 - INFO - ### VERIFICATION TEXT MATCHED !!!
+2018-07-28 17:58:34,647 - INFO - ### VERIFICATION SUCCESSFUL :: test_valid_user_input
+2018-07-28 17:58:34,647 - INFO - ### test_valid_user_input### TEST SUCCESSFUL
+2018-07-28 17:58:44,492 - INFO - Element found with locator_properties: //input[@id='user-message'] and locator_type: xpath
+2018-07-28 17:58:44,505 - INFO - Element found with locator_properties: //button[text()='Show Message'] and locator_type: xpath
+2018-07-28 17:58:44,518 - INFO - Element found with locator_properties: //input[@id='sum1'] and locator_type: xpath
+2018-07-28 17:58:44,532 - INFO - Element found with locator_properties: //input[@id='sum2'] and locator_type: xpath
+2018-07-28 17:58:44,544 - INFO - Element found with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2018-07-28 17:58:44,544 - INFO - ### VERIFICATION SUCCESSFUL :: test_verify_main_screen_elements
+2018-07-28 17:58:44,545 - INFO - ### test_verify_main_screen_elements### TEST SUCCESSFUL

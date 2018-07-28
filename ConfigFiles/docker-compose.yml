@@ -1,0 +1,47 @@
+selenium_hub:
+  image: selenium/hub
+  ports:
+    - 8888:4444
+  privileged: true
+  environment:
+    - GRID_BROWSER_TIMEOUT=60000
+    - GRID_TIMEOUT=30000
+    - GRID_MAX_SESSION=4
+
+firefox_debug_node:
+  image: selenium/node-firefox-debug
+  ports: 
+    - 32771:5900
+  environment:
+  - NODE_MAX_INSTANCES=6
+  - NODE_MAX_SESSION=6
+  links:
+    - selenium_hub:hub
+
+chrome_debug_node:
+  image: selenium/node-chrome-debug
+  ports: 
+    - 32770:5900
+  environment:
+  - NODE_MAX_INSTANCES=6
+  - NODE_MAX_SESSION=6
+  links:
+    - selenium_hub:hub
+    
+firefox_node:
+  image: selenium/node-firefox
+  environment:
+    - PLATFORM=MAC
+    - NODE_MAX_INSTANCES=6
+    - NODE_MAX_SESSION=6
+  links:
+    - selenium_hub:hub
+           
+chrome_node:
+  image: selenium/node-chrome
+  environment:
+    - PLATFORM=MAC
+    - NODE_MAX_INSTANCES=6
+    - NODE_MAX_SESSION=6
+  links:
+    - selenium_hub:hub 

@@ -1,0 +1,12 @@
+# Framework
+pytest
+selenium
+
+# Reporting
+allure-pytest
+pytest-allure-adaptor
+
+# Data Driven
+pyexcel
+pyexcel-xls
+pyexcel-xlsx

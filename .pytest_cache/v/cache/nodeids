@@ -1,0 +1,6 @@
+[
+  "TestScripts/test_manager.py::LoginTests::test_invalid_addition",
+  "TestScripts/test_manager.py::LoginTests::test_valid_addition",
+  "TestScripts/test_manager.py::LoginTests::test_valid_user_input",
+  "TestScripts/test_manager.py::LoginTests::test_verify_main_screen_elements"
+]

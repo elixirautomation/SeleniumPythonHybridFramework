@@ -1,0 +1,10 @@
+# General Commands
+py.cleanup -p
+
+pytest TestScripts/test_manager.py --browser=chrome --alluredir ExecutionReports/ & allure serve ExecutionReports
+
+
+# Grid Specific Commands
+
+pytest TestScripts/test_manager.py --browser=grid_chrome --alluredir ExecutionReports/
+pytest TestScripts/test_manager.py --browser=grid_firefox --alluredir ExecutionReports/
