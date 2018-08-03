@@ -172,7 +172,7 @@ class UIHelpers():
                         "Element not found with locator_properties: " + locator_prop +
                         " and locator_type: " + locator_dict[[locator_prop]])
         except Exception as ex:
-            self.log.error("Exception occurred during element identification: ", ex.__str__())
+            self.log.error("Exception occurred during element identification: ", ex)
 
         return flag
 
@@ -409,21 +409,16 @@ class UIHelpers():
         :param expected_text: it takes the expected string value to match with
         :return: it return boolean value according to verification
         """
-        flag = False
-        try:
-            self.log.info("Actual Text From Application Web UI --> :: " + actual_text)
-            self.log.info("Expected Text From Application Web UI --> :: " + expected_text)
 
-            if expected_text.lower() == actual_text.lower():
-                self.log.info("### VERIFICATION TEXT MATCHED !!!")
-                flag = True
-            else:
-                self.log.info("### VERIFICATION TEXT DOES NOT MATCHED !!!")
+        self.log.info("Actual Text From Application Web UI --> :: " + actual_text)
+        self.log.info("Expected Text From Application Web UI --> :: " + expected_text)
 
-        except Exception as ex:
-            self.log.error("Exception occurred while verifying texts: " + ex.__str__())
-
-        return flag
+        if expected_text.lower() == actual_text.lower():
+            self.log.info("### VERIFICATION TEXT MATCHED !!!")
+            return True
+        else:
+            self.log.info("### VERIFICATION TEXT DOES NOT MATCHED !!!")
+            return False
 
     def take_screenshots(self, file_name_initials):
 
@@ -445,7 +440,7 @@ class UIHelpers():
             self.driver.save_screenshot(destination_directory)
             self.log.info("Screenshot saved to directory: " + destination_directory)
         except Exception as ex:
-            self.log.error("### Exception occurred:: " + ex.__str__())
+            self.log.error("### Exception occurred:: ", ex)
             print_stack()
 
         return destination_directory

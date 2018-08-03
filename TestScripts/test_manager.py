@@ -1,11 +1,11 @@
 import unittest
-from TestScripts.MainPageScript.main_page_tests import LoginTests
+from TestScripts.MainPageScript.main_page_tests import MainPageTests
 
 # Get all tests from classes
-loginTests = unittest.TestLoader().loadTestsFromTestCase(LoginTests)
+MainPage = unittest.TestLoader().loadTestsFromTestCase(MainPageTests)
 
 # Create a test suite combining all test cases
-regressionTest = unittest.TestSuite(loginTests)
+regressionTest = unittest.TestSuite(MainPage)
 
 # Test runner
 unittest.TextTestRunner(verbosity=2).run(regressionTest)

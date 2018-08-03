@@ -2,7 +2,9 @@
 This module contains common reusable functions.
 """
 
+from traceback import print_stack
 from SupportLibraries.ui_helpers import UIHelpers
+from configparser import ConfigParser
 
 
 class BaseHelpers(UIHelpers):
@@ -13,4 +15,20 @@ class BaseHelpers(UIHelpers):
         super().__init__(driver)
         self.driver = driver
 
-    # Include your base helper methods here
+    def load_properties_file(self):
+        """
+        This method loads the properties/ini file
+        :return: this method returns config reader instance.
+        """
+
+        config = None
+        try:
+            # noinspection PyBroadException
+            config = ConfigParser()
+            config.read('test.ini')
+
+        except Exception as ex:
+            self.log.error("Failed to load ini/properties file.", ex)
+            print_stack()
+
+        return config

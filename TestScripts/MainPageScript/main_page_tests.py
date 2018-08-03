@@ -12,7 +12,7 @@ from FrameworkUtilities.data_reader_utility import DataReader
 @allure.story('[DEMO] - Automate  the  basic functionality')
 @allure.feature('Web App Input Tests')
 @pytest.mark.usefixtures("method_level_setup")
-class LoginTests(unittest.TestCase):
+class MainPageTests(unittest.TestCase):
     """
     This class contains the executable test cases.
     """

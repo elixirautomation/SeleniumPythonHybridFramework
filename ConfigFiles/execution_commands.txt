@@ -1,10 +1,32 @@
-# General Commands
+#### Local Commands #####
+
+## For local execution give --browser= local_chrome or local_firefox
+
+pytest TestScripts/test_manager.py --browser=local_chrome --alluredir ExecutionReports/ & allure serve ExecutionReports
+pytest TestScripts/test_manager.py --browser=local_firefox --alluredir ExecutionReports/ & allure serve ExecutionReports
+pytest TestScripts/test_manager.py --browser=local_edge --alluredir ExecutionReports/ & allure serve ExecutionReports
+
 py.cleanup -p
 
-pytest TestScripts/test_manager.py --browser=chrome --alluredir ExecutionReports/ & allure serve ExecutionReports
+#### Grid Specific Commands ####
 
+## MAC
 
-# Grid Specific Commands
+pytest TestScripts/test_manager.py --platform=MAC --browser=chrome
+pytest TestScripts/test_manager.py --platform=MAC --browser=safari
+pytest TestScripts/test_manager.py --platform=MAC --browser=firefox
 
-pytest TestScripts/test_manager.py --browser=grid_chrome --alluredir ExecutionReports/
-pytest TestScripts/test_manager.py --browser=grid_firefox --alluredir ExecutionReports/
+## WINDOWS
+
+pytest TestScripts/test_manager.py --platform=WINDOWS --browser=chrome
+pytest TestScripts/test_manager.py --platform=WINDOWS --browser=edge
+pytest TestScripts/test_manager.py --platform=WINDOWS --browser=firefox
+
+#### Cloud Specific Commands ####
+
+pytest TestScripts/test_manager.py --browser=browserstack_mobile
+pytest TestScripts/test_manager.py --browser=browserstack_desktop
+
+#### Jenkins Specific (Need to work on this) ####
+
+pytest TestScripts/test_manager.py --browser=$BROWSER --platform=$PLATFORM
