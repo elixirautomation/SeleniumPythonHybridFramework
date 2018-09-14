@@ -7,7 +7,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as chrome_options
 from selenium.webdriver.firefox.options import Options as ff_options
 from selenium.webdriver.edge.options import Options as edge_options
-
 from FrameworkUtilities.config_utility import ConfigUtility
 from FrameworkUtilities.logger_utility import custom_logger
 
@@ -60,11 +59,11 @@ class DriverFactory():
             firefox_capabilities['javascriptEnabled'] = True
             firefox_capabilities['marionette'] = True
 
-            opts = ff_options()
-            opts.log.level = "trace"
+            options = ff_options()
+            options.log.level = 'trace'
 
             driver = webdriver.Remote(command_executor=self.prop.get('GRID', 'GRID_SERVER'),
-                                      desired_capabilities=firefox_capabilities, options=opts)
+                                      desired_capabilities=firefox_capabilities, options=options)
 
         elif self.browser == "safari":
 
@@ -88,6 +87,24 @@ class DriverFactory():
                 command_executor=self.prop.get('GRID', 'GRID_SERVER'),
                 desired_capabilities=edge_capabilities)
 
+        elif self.browser == "sauce":
+            username = self.prop.get('CLOUD', 'sl_username')
+            automate_key = self.prop.get('CLOUD', 'sl_key')
+            url = "https://" + username + ":" + automate_key + "@ondemand.saucelabs.com:443/wd/hub"
+
+            caps = {}
+            caps['browserName'] = "Safari"
+            caps['appiumVersion'] = "1.8.1"
+            caps['deviceName'] = "iPhone X Simulator"
+            caps['deviceOrientation'] = "portrait"
+            caps['platformVersion'] = "11.3"
+            caps['platformName'] = "iOS"
+            caps['name'] = "iPhone X Execution"
+
+            driver = webdriver.Remote(
+                command_executor=url,
+                desired_capabilities=caps)
+
         elif self.browser == "browserstack_desktop":
             username = self.prop.get('CLOUD', 'bs_username')
             automate_key = self.prop.get('CLOUD', 'bs_key')
@@ -99,7 +116,6 @@ class DriverFactory():
             caps['os'] = 'OS X'
             caps['os_version'] = 'High Sierra'
             caps['resolution'] = '1024x768'
-            caps['project']= 'Selenium Python Hybrid Framework'
             caps['name'] = "Mac Safari Execution"
             caps['browserstack.debug'] = True
             caps['browserstack.networkLogs'] = True
@@ -139,9 +155,15 @@ class DriverFactory():
             driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/geckodriver.exe")
             os.environ["webdriver.gecko.driver"] = driver_location
 
+            browser_profile = webdriver.FirefoxProfile()
+            browser_profile.set_preference("dom.webnotifications.enabled", False)
+
+            options = ff_options()
+            options.log.level = 'trace'
             firefox_capabilities = webdriver.DesiredCapabilities.FIREFOX
             firefox_capabilities['marionette'] = True
-            driver = webdriver.Firefox(capabilities=firefox_capabilities, executable_path=driver_location)
+            driver = webdriver.Firefox(capabilities=firefox_capabilities, executable_path=driver_location,
+                                       firefox_options=options, log_path='/tmp/geckodriver.log', firefox_profile=browser_profile)
 
         elif self.browser == "local_chrome":
             driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/chromedriver.exe")
@@ -180,5 +202,5 @@ class DriverFactory():
             driver = webdriver.Chrome(driver_location, chrome_options=options)
 
         # driver.fullscreen_window()
-        driver.get(self.prop.get('SELENIUM', 'BASE_URL'))
+        driver.get(self.prop.get('RAFT', 'BASE_URL'))
         return driver

@@ -31,7 +31,7 @@ def custom_logger(log_level=logging.INFO):
     current_time = datetime.strftime(datetime.now(), '%d%m%Y-%H%M%S')  # Time
 
     if log_filename is None:
-        temp_file = "SELENIUM_DEMO_" + current_time + ".log"
+        temp_file = "RAFT_" + current_time + ".log"
         log_filename = os.path.join(date_dir, temp_file)
 
     caller_name = inspect.stack()[1][1] + " - \tLN:" + str(inspect.stack()[1][2])  # Caller Method

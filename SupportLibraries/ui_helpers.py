@@ -9,6 +9,7 @@ from traceback import print_stack
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 import FrameworkUtilities.logger_utility as log_utils
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -83,7 +84,6 @@ class UIHelpers():
             )
             return True
         except:
-            self.log.error("Exception occurred while waiting for element to be present.")
             return False
 
     def wait_for_element_to_be_clickable(self, locator_properties, locator_type="xpath", max_time_out=10):
@@ -97,7 +97,7 @@ class UIHelpers():
         """
 
         try:
-            WebDriverWait(self.driver, max_time_out, ignored_exceptions=[StaleElementReferenceException], poll_frequency=1).until(
+            WebDriverWait(self.driver, max_time_out, ignored_exceptions=[StaleElementReferenceException]).until(
                 EC.element_to_be_clickable((self.get_locator_type(locator_type), locator_properties))
             )
             return True
@@ -148,6 +148,53 @@ class UIHelpers():
 
         return flag
 
+    def is_element_located(self, locator_properties, locator_type="xpath", max_time_out=10):
+
+        """
+        This method is used to return the boolean value for element present
+        :param locator_properties: it takes locator string as parameter
+        :param locator_type: it takes locator type as parameter
+        :param max_time_out: this is the maximum time to wait for particular element
+        :return: it returns the boolean value according to the element present or not
+        """
+
+        flag = False
+        try:
+            if self.wait_for_element_to_be_present(locator_properties, locator_type, max_time_out):
+                flag = True
+        except:
+            flag = False
+
+        return flag
+
+    def is_element_checked(self, locator_properties, locator_type="xpath", max_time_out=10):
+
+        """
+        This method is used to return the boolean value for element checked/ selected
+        :param locator_properties: it takes locator string as parameter
+        :param locator_type: it takes locator type as parameter
+        :param max_time_out: this is the maximum time to wait for particular element
+        :return: it returns the boolean value according to the element present or not
+        """
+
+        flag = False
+        try:
+            if self.is_element_present(locator_properties, locator_type, max_time_out):
+                element = self.get_element(locator_properties, locator_type, max_time_out)
+                if element.is_selected():
+                    self.log.info(
+                        "Element is selected/ checked with locator_properties: " +
+                        locator_properties + " and locator_type: " + locator_type)
+                    flag = True
+                else:
+                    self.log.error(
+                        "Element is not selected/ checked with locator_properties: " +
+                        locator_properties + " and locator_type: " + locator_type)
+        except:
+            flag = False
+
+        return flag
+
     def verify_elements_located(self, locator_dict, max_timeout=10):
 
         """
@@ -158,6 +205,7 @@ class UIHelpers():
         """
 
         flag = False
+        result = []
         try:
 
             for locator_prop in locator_dict.keys():
@@ -170,11 +218,17 @@ class UIHelpers():
                 else:
                     self.log.error(
                         "Element not found with locator_properties: " + locator_prop +
-                        " and locator_type: " + locator_dict[[locator_prop]])
+                        " and locator_type: " + locator_dict[locator_prop])
+                    flag = False
+                result.append(flag)
+
         except Exception as ex:
             self.log.error("Exception occurred during element identification: ", ex)
 
-        return flag
+        if False in result:
+            return False
+        else:
+            return True
 
     def is_element_displayed(self, locator_properties, locator_type="xpath", max_time_out=10):
 
@@ -278,7 +332,7 @@ class UIHelpers():
         :return: it returns the element inner text value
         """
 
-        result_text = None
+        result_text = ""
         try:
             element = self.get_element(locator_properties, locator_type, max_time_out)
             result_text = element.text
@@ -303,7 +357,7 @@ class UIHelpers():
         :return: it returns the element attribute value
         """
 
-        attribute_value = None
+        attribute_value = ""
         try:
             element = self.get_element(locator_properties, locator_type, max_time_out)
             attribute_value = element.get_attribute(attribute_name)
@@ -327,6 +381,28 @@ class UIHelpers():
 
         try:
             if self.is_element_clickable(locator_properties, locator_type, max_time_out):
+                element = self.get_element(locator_properties, locator_type, max_time_out)
+                element.click()
+                self.log.info(
+                    "Clicked on the element with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
+            else:
+                self.log.error("Unable to click on the element with locator_properties: "
+                               + locator_properties + " and locator_type: " + locator_type)
+        except:
+            self.log.error("Exception occurred during mouse click action.")
+
+    def mouse_click_action_on_element_present(self, locator_properties, locator_type="xpath", max_time_out=10):
+
+        """
+        This method is used to perform mouse click action according to the locator type and property
+        :param locator_properties: it takes locator string as parameter
+        :param locator_type: it takes locator type as parameter
+        :param max_time_out: this is the maximum time to wait for particular element
+        :return: it returns nothing
+        """
+
+        try:
+            if self.is_element_present(locator_properties, locator_type, max_time_out):
                 element = self.get_element(locator_properties, locator_type, max_time_out)
                 element.click()
                 self.log.info(
@@ -372,6 +448,8 @@ class UIHelpers():
         :return:
         """
 
+        element = None
+
         try:
             element = self.get_element(locator_properties, locator_type, max_time_out)
             element.clear()
@@ -381,6 +459,8 @@ class UIHelpers():
         except:
             self.log.error("Unable to send data on the element with locator_properties: "
                            + locator_properties + " and locator_type: " + locator_type)
+
+        return element
 
     def verify_text_contains(self, actual_text, expected_text):
 
@@ -417,7 +497,7 @@ class UIHelpers():
             self.log.info("### VERIFICATION TEXT MATCHED !!!")
             return True
         else:
-            self.log.info("### VERIFICATION TEXT DOES NOT MATCHED !!!")
+            self.log.error("### VERIFICATION TEXT DOES NOT MATCHED !!!")
             return False
 
     def take_screenshots(self, file_name_initials):
@@ -500,3 +580,10 @@ class UIHelpers():
             self.driver.switch_to.default_content()
         except:
             self.log.error("Exception occurred while switching to default content..")
+
+    def wait_for_sync(self, seconds=5):
+        time.sleep(seconds)
+
+    def press_action_key(self, key=Keys.ENTER):
+        actions = ActionChains(self.driver)
+        actions.key_down(key).key_up(key).perform()

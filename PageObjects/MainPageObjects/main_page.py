@@ -61,6 +61,7 @@ class MainPage(BaseHelpers):
         self.enter_text_action(num2, self.enter_second_value)
         self.mouse_click_action(self.get_total_button)
         addition = str(self.get_text_from_element(self.show_total_text))
+        expected = str(expected)
 
         result = self.verify_text_match(addition, expected)
 

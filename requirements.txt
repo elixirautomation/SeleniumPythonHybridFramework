@@ -1,9 +1,10 @@
 # Framework
-pytest
+pytest==3.6.3
 selenium
+pycmd
 
 # Reporting
-allure-pytest
+allure-pytest==2.3.2b1
 
 # Data Driven
 pyexcel

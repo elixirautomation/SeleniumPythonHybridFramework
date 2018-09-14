@@ -46,34 +46,34 @@ class ExecutionStatus(UIHelpers):
             allure.attach.file(self.take_screenshots(test_name), attachment_type=allure.attachment_type.PNG)
             print_stack()
 
-    def mark(self, result, test_name):
+    def mark(self, test_step, result):
 
         """
         This method handles intermediate assertions and saves the result for final mark.
         :param result: this parameter takes the execution status value pass/fail.
-        :param test_name: it takes the test case name value
+        :param test_step: it takes the test case name value
         :return: this method returns nothing.
         """
 
-        self.set_result(result, test_name)
+        self.set_result(result=result, test_name=test_step)
 
-    def mark_final(self, test_name, result):
+    def mark_final(self, result, test_step):
 
         """
         This method handles final assertion and saves the result for final mark.
-        :param test_name: it takes the test case name value
+        :param test_step: it takes the test case name value
         :param result: this parameter takes the execution status value pass/fail.
         :return: this method returns nothing.
         """
 
-        self.set_result(result, test_name)
+        self.set_result(result, test_step)
 
         if "FAIL" in self.result_list:
-            self.log.error("### " + test_name + " ### TEST FAILED")
+            self.log.error("### " + test_step + " ### TEST FAILED")
             self.result_list.clear()
-            assert True is False
+            assert True is False, "### " + test_step + " ### TEST FAILED"
 
         else:
-            self.log.info("### " + test_name + "### TEST SUCCESSFUL")
+            self.log.info("### " + test_step + "### TEST SUCCESSFUL")
             self.result_list.clear()
-            assert True is True
+            assert True is True, "### " + test_step + "### TEST SUCCESSFUL"

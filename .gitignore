@@ -1,0 +1,9 @@
+*.pc
+*.github
+*.pyc
+*.pyo
+*.swp
+*.swo
+*.pytest_cache
+*.idea
+__pycache__

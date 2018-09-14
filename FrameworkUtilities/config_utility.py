@@ -4,12 +4,17 @@ This module contains config utility functions.
 
 from traceback import print_stack
 from configparser import ConfigParser
+import FrameworkUtilities.logger_utility as log_utils
+import logging
 
 
 class ConfigUtility:
     """
     This class includes basic reusable config_helpers.
     """
+
+    log = log_utils.custom_logger(logging.INFO)
+
     def __init__(self, config_path):
         self.config_path = config_path
 

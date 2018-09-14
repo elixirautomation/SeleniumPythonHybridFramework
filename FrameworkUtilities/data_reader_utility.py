@@ -1,18 +1,18 @@
 """ This module is used for developing/ accessing data reader utility. """
 
+import os
 import traceback
 import pyexcel as exc
-import pyexcel.ext.xls
-import pyexcel.ext.xlsx
 
 
-class DataReader():
+class DataReader:
     """
     This class includes basic reusable data helpers.
     """
 
-    def __init__(self, file_path):
-        self.file_path = file_path
+    def __init__(self):
+        self.cur_path = os.path.abspath(os.path.dirname(__file__))
+        self.file_path = os.path.join(self.cur_path, r"../TestData/TestData.xlsx")
 
     def load_excel_data(self):
         """
@@ -48,7 +48,6 @@ class DataReader():
                 for record in excel_records:
                     if record['TC_Name'] == tc_name:
                         value = record[column_name]
-                        value = str(value)
                         break
                     else:
                         continue
