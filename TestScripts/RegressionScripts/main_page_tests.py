@@ -1,6 +1,6 @@
 """ This module contains the all test cases."""
 
-import os
+import sys
 import logging
 import unittest
 import allure
@@ -45,9 +45,13 @@ class MainPageTests(unittest.TestCase):
         :return: return test status
         """
 
+        test_name = sys._getframe().f_code.co_name
+
+        self.log.info("###### TEST EXECUTION STARTED :: " + test_name + " ######")
+
         with allure.step("Verify Main Screen Elements"):
             result = self.main_page.verify_main_screen_elements()
-            self.exe_status.mark_final(test_step="test_verify_main_screen_elements", result=result)
+            self.exe_status.mark_final(test_step=test_name, result=result)
 
     @allure.testcase("Valid User Input Test")
     def test_valid_user_input(self):
@@ -56,9 +60,15 @@ class MainPageTests(unittest.TestCase):
         :return: return test status
         """
 
+        test_name = sys._getframe().f_code.co_name
+
+        self.log.info("###### TEST EXECUTION STARTED :: " + test_name + " ######")
+
+        user_input = self.data_reader.get_data(test_name, "Text_Message")
+
         with allure.step("Verify User Input"):
-            result = self.main_page.verify_valid_user_input(self.data_reader.get_data("test_valid_user_input", "Text_Message"))
-            self.exe_status.mark_final(test_step="test_valid_user_input", result=result)
+            result = self.main_page.verify_valid_user_input(user_input)
+            self.exe_status.mark_final(test_step=test_name, result=result)
 
     @allure.testcase("Valid Addition Test")
     def test_valid_addition(self):
@@ -67,12 +77,17 @@ class MainPageTests(unittest.TestCase):
         :return: return test status
         """
 
-        with allure.step("Verify valid addition functionality"):
-            result = self.main_page.verify_addition_functionality(self.data_reader.get_data("test_valid_addition", "Number_A"),
-                                                          self.data_reader.get_data("test_valid_addition", "Number_B"),
-                                                                  self.data_reader.get_data("test_valid_addition", "Expected"))
+        test_name = sys._getframe().f_code.co_name
 
-            self.exe_status.mark_final(test_step="test_valid_addition", result=result)
+        self.log.info("###### TEST EXECUTION STARTED :: " + test_name + " ######")
+
+        num1 = self.data_reader.get_data(test_name, "Number_A")
+        num2 = self.data_reader.get_data(test_name, "Number_B")
+        expected_text = self.data_reader.get_data(test_name, "Expected")
+
+        with allure.step("Verify valid addition functionality"):
+            result = self.main_page.verify_addition_functionality(num1, num2, expected=expected_text)
+            self.exe_status.mark_final(test_step=test_name, result=result)
 
     @allure.testcase("Invalid Addition Test")
     def test_invalid_addition(self):
@@ -81,8 +96,14 @@ class MainPageTests(unittest.TestCase):
         :return: return test status
         """
 
+        test_name = sys._getframe().f_code.co_name
+
+        self.log.info("###### TEST EXECUTION STARTED :: " + test_name + " ######")
+
+        num1 = self.data_reader.get_data(test_name, "Number_A")
+        num2 = self.data_reader.get_data(test_name, "Number_B")
+        expected_text = self.data_reader.get_data(test_name, "Expected")
+
         with allure.step("Verify invalid addition functionality"):
-            result = self.main_page.verify_addition_functionality(self.data_reader.get_data("test_invalid_addition", "Number_A"),
-                                                          self.data_reader.get_data("test_invalid_addition", "Number_B"),
-                                                                  self.data_reader.get_data("test_invalid_addition", "Expected"))
-            self.exe_status.mark_final(test_step="test_invalid_addition", result=result)
+            result = self.main_page.verify_addition_functionality(num1, num2, expected=expected_text)
+            self.exe_status.mark_final(test_step=test_name, result=result)

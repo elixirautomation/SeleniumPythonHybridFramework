@@ -508,7 +508,7 @@ class UIHelpers():
         :return: it returns the destination directory of screenshot
         """
 
-        file_name = file_name_initials + "." + str(round(time.time() * 1000)) + ".png"
+        file_name = file_name_initials + "_" + str(round(time.time() * 1000)) + ".png"
         cur_path = os.path.abspath(os.path.dirname(__file__))
         screenshot_directory = os.path.join(cur_path, r"../Logs/Screenshots/")
 
