@@ -13,7 +13,7 @@ from FrameworkUtilities.data_reader_utility import DataReader
 
 @allure.story('[DEMO] - Automate  the  basic functionality')
 @allure.feature('Web App Input Tests')
-@pytest.mark.usefixtures("before_class")
+@pytest.mark.usefixtures("get_driver")
 class MainPageTests(unittest.TestCase):
     """
     This class contains the executable test cases.
@@ -107,3 +107,6 @@ class MainPageTests(unittest.TestCase):
         with allure.step("Verify invalid addition functionality"):
             result = self.main_page.verify_addition_functionality(num1, num2, expected=expected_text)
             self.exe_status.mark_final(test_step=test_name, result=result)
+
+    if __name__ == '__main__':
+        unittest.main(verbosity=2)

@@ -2,20 +2,18 @@ from SupportLibraries.driver_factory import DriverFactory
 import pytest
 
 
-@pytest.fixture(scope="class")
-def before_class(request, browser, platform):
-    print("method_level_setup: Running method level setup.")
+@pytest.fixture(scope="session")
+def get_driver(request, browser, platform):
+    print("session_level_setup: Running session level setup.")
     df = DriverFactory(browser, platform)
     driver = df.get_driver_instance()
-
-    if request.cls is not None:
-        request.cls.driver = driver
-
-    yield driver
-    print("method_level_setup: Running method level teardown.")
-    driver.delete_all_cookies()
+    session = request.node
+    for item in session.items:
+        cls = item.getparent(pytest.Class)
+        setattr(cls.obj, "driver", driver)
+    yield
+    print("session_level_setup: Running session level teardown.")
     driver.quit()
-
 
 def pytest_addoption(parser):
     parser.addoption("--browser", help="Browser Type")
