@@ -1,4 +1,4 @@
-# SNTL  Reusable Automation Framework For Testing
+# RAFT  Reusable Automation Framework For Testing
 
 ### Initial Setup:
 - Install and configure [Python3](https://www.python.org/downloads/)
