@@ -2,31 +2,30 @@
 
 import logging
 import os
-
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options as chrome_options
-from selenium.webdriver.firefox.options import Options as ff_options
-from selenium.webdriver.edge.options import Options as edge_options
+from selenium.webdriver.chrome.options import Options as chromeOptions
+from selenium.webdriver.firefox.options import Options as ffOptions
+from selenium.webdriver.edge.options import Options as edgeOptions
 from FrameworkUtilities.config_utility import ConfigUtility
 from FrameworkUtilities.logger_utility import custom_logger
 
 
-class DriverFactory():
+class DriverFactory:
     """
     This class contains the reusable methods for getting the driver instances
     """
     log = custom_logger(logging.INFO)
+    config = ConfigUtility()
 
-    def __init__(self, browser, platform):
+    def __init__(self, browser, platform, environment, url=""):
         self.platform = platform
         self.browser = browser
+        self.environment = environment
+        self.url = url
         self.cur_path = os.path.abspath(os.path.dirname(__file__))
-        self.path = os.path.join(self.cur_path, r"../ConfigFiles/config.ini")
-        self.config = ConfigUtility(self.path)
         self.prop = self.config.load_properties_file()
 
     def get_driver_instance(self):
-        driver = None
 
         if self.browser == "chrome":
 
@@ -35,7 +34,7 @@ class DriverFactory():
             chrome_capabilities['browserName'] = 'chrome'
             chrome_capabilities['javascriptEnabled'] = True
 
-            options = chrome_options()
+            options = chromeOptions()
             options.add_argument("--disable-infobars")
             options.add_argument("--disable-extensions")
             options.add_argument("--disable-notifications")
@@ -59,7 +58,7 @@ class DriverFactory():
             firefox_capabilities['javascriptEnabled'] = True
             firefox_capabilities['marionette'] = True
 
-            options = ff_options()
+            options = ffOptions()
             options.log.level = 'trace'
 
             driver = webdriver.Remote(command_executor=self.prop.get('GRID', 'GRID_SERVER'),
@@ -69,7 +68,7 @@ class DriverFactory():
 
             safari_capabilities = webdriver.DesiredCapabilities.SAFARI
             safari_capabilities['platform'] = self.platform
-            safari_capabilities['browserName'] = 'chrome'
+            safari_capabilities['browserName'] = 'safari'
             safari_capabilities['javascriptEnabled'] = True
 
             driver = webdriver.Remote(
@@ -145,10 +144,6 @@ class DriverFactory():
             os.environ["webdriver.edge.driver"] = driver_location
 
             edge_capabilities = webdriver.DesiredCapabilities.EDGE
-            edge_capabilities['platform'] = self.platform
-            edge_capabilities['browserName'] = 'MicrosoftEdge'
-            edge_capabilities['javascriptEnabled'] = True
-
             driver = webdriver.Edge(capabilities=edge_capabilities, executable_path=driver_location)
 
         elif self.browser == "local_firefox":
@@ -158,18 +153,19 @@ class DriverFactory():
             browser_profile = webdriver.FirefoxProfile()
             browser_profile.set_preference("dom.webnotifications.enabled", False)
 
-            options = ff_options()
+            options = ffOptions()
             options.log.level = 'trace'
             firefox_capabilities = webdriver.DesiredCapabilities.FIREFOX
             firefox_capabilities['marionette'] = True
             driver = webdriver.Firefox(capabilities=firefox_capabilities, executable_path=driver_location,
-                                       firefox_options=options, log_path='/tmp/geckodriver.log', firefox_profile=browser_profile)
+                                       options=options, log_path='/tmp/geckodriver.log',
+                                       firefox_profile=browser_profile)
 
         elif self.browser == "local_chrome":
             driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/chromedriver.exe")
             os.environ["webdriver.chrome.driver"] = driver_location
 
-            options = chrome_options()
+            options = chromeOptions()
             options.add_argument("--disable-infobars")
             options.add_argument("--disable-extensions")
             options.add_argument("--disable-notifications")
@@ -181,13 +177,13 @@ class DriverFactory():
             options.add_experimental_option('prefs', {'credentials_enable_service': False,
                                                       'profile': {'password_manager_enabled': False}})
 
-            driver = webdriver.Chrome(driver_location, chrome_options=options)
+            driver = webdriver.Chrome(driver_location, options=options)
 
         else:
             driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/chromedriver.exe")
             os.environ["webdriver.chrome.driver"] = driver_location
 
-            options = chrome_options()
+            options = chromeOptions()
             options.add_argument("--disable-infobars")
             options.add_argument("--disable-extensions")
             options.add_argument("--disable-notifications")
@@ -199,8 +195,29 @@ class DriverFactory():
             options.add_experimental_option('prefs', {'credentials_enable_service': False,
                                                       'profile': {'password_manager_enabled': False}})
 
-            driver = webdriver.Chrome(driver_location, chrome_options=options)
+            driver = webdriver.Chrome(driver_location, options=options)
 
-        # driver.fullscreen_window()
-        driver.get(self.prop.get('RAFT', 'BASE_URL'))
+        if "chrome" in self.browser:
+            driver.fullscreen_window()
+
+        if self.environment == "staging":
+            test_data = self.prop.get('RAFT', 'staging_test_data')
+            self.config.change_properties_file('RAFT', 'base_test_data', test_data)
+            self.url = self.prop.get('RAFT', 'staging_url')
+            self.config.change_properties_file('RAFT', 'base_url', self.url)
+
+        elif self.environment == "prod":
+            test_data = self.prop.get('RAFT', 'prod_test_data')
+            self.config.change_properties_file('RAFT', 'base_test_data', test_data)
+            self.url = self.prop.get('RAFT', 'prod_url')
+            self.config.change_properties_file('RAFT', 'base_url', self.url)
+
+        else:
+            test_data = self.prop.get('RAFT', 'staging_test_data')
+            self.config.change_properties_file('RAFT', 'base_test_data', test_data)
+            self.url = self.prop.get('RAFT', 'staging_url')
+            self.config.change_properties_file('RAFT', 'base_url', self.url)
+
+        driver.get(self.url)
+
         return driver

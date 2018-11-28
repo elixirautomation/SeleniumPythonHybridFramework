@@ -5,6 +5,8 @@ This module contains most of the reusable functions to support test cases.
 import os
 import time
 import logging
+import random
+import string
 from traceback import print_stack
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
@@ -15,7 +17,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-class UIHelpers():
+class UIHelpers:
 
     """
     UI Helpers class to contains all ui helper methods.
@@ -124,6 +126,24 @@ class UIHelpers():
             self.log.error("Exception occurred while waiting for element to be visible.")
             return False
 
+    def wait_for_element_to_be_invisible(self, locator_properties, locator_type="xpath", max_time_out=10):
+
+        """
+        This function is used for explicit waits till element displayed
+        :param locator_properties: it takes locator string as parameter
+        :param locator_type: it takes locator type as parameter
+        :param max_time_out: this is the maximum time to wait for particular element
+        :return: it returns the boolean value according to the element located or not
+        """
+
+        try:
+            WebDriverWait(self.driver, max_time_out, ignored_exceptions=[StaleElementReferenceException]).until(
+                EC.invisibility_of_element_located((self.get_locator_type(locator_type), locator_properties))
+            )
+            return True
+        except:
+            return False
+
     def is_element_present(self, locator_properties, locator_type="xpath", max_time_out=10):
 
         """
@@ -138,17 +158,17 @@ class UIHelpers():
         try:
             if self.wait_for_element_to_be_present(locator_properties, locator_type, max_time_out):
                 self.log.info(
-                    "Element found with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
+                    "Element present with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
                 flag = True
             else:
                 self.log.error(
-                    "Element not found with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
+                    "Element not present with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
         except:
             self.log.error("Exception occurred during element identification.")
 
         return flag
 
-    def is_element_located(self, locator_properties, locator_type="xpath", max_time_out=10):
+    def verify_element_not_present(self, locator_properties, locator_type="xpath", max_time_out=10):
 
         """
         This method is used to return the boolean value for element present
@@ -160,12 +180,63 @@ class UIHelpers():
 
         flag = False
         try:
-            if self.wait_for_element_to_be_present(locator_properties, locator_type, max_time_out):
+            if self.wait_for_element_to_be_invisible(locator_properties, locator_type, max_time_out):
+                self.log.info(
+                    "Element invisible with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
                 flag = True
+            else:
+                self.log.error(
+                    "Element is visible with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
         except:
-            flag = False
+            self.log.error("Exception occurred during element to be invisible.")
 
         return flag
+
+    def is_element_displayed(self, locator_properties, locator_type="xpath", max_time_out=10):
+
+        """
+        This method is used to return the boolean value for element displayed
+        :param locator_properties: it takes locator string as parameter
+        :param locator_type: it takes locator type as parameter
+        :param max_time_out: this is the maximum time to wait for particular element
+        :return: it returns the boolean value according to the element displayed or not
+        """
+
+        try:
+            if self.wait_for_element_to_be_displayed(locator_properties, locator_type, max_time_out):
+                self.log.info(
+                    "Element found with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
+                return True
+            else:
+                self.log.error(
+                    "Element not found with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
+                return False
+        except:
+            self.log.error("Exception occurred during element identification.")
+            return False
+
+    def is_element_clickable(self, locator_properties, locator_type="xpath", max_time_out=10):
+
+        """
+        This method is used to return the boolean value for element clickable
+        :param locator_properties: it takes locator string as parameter
+        :param locator_type: it takes locator type as parameter
+        :param max_time_out: this is the maximum time to wait for particular element
+        :return: it returns the boolean value according to the element clickable or not
+        """
+
+        try:
+            if self.wait_for_element_to_be_clickable(locator_properties, locator_type, max_time_out):
+                self.log.info(
+                    "Element is clickable with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
+                return True
+            else:
+                self.log.error(
+                    "Element is not clickable with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
+                return False
+        except:
+            self.log.error("Exception occurred during element identification.")
+            return False
 
     def is_element_checked(self, locator_properties, locator_type="xpath", max_time_out=10):
 
@@ -229,52 +300,6 @@ class UIHelpers():
             return False
         else:
             return True
-
-    def is_element_displayed(self, locator_properties, locator_type="xpath", max_time_out=10):
-
-        """
-        This method is used to return the boolean value for element displayed
-        :param locator_properties: it takes locator string as parameter
-        :param locator_type: it takes locator type as parameter
-        :param max_time_out: this is the maximum time to wait for particular element
-        :return: it returns the boolean value according to the element displayed or not
-        """
-
-        try:
-            if self.wait_for_element_to_be_displayed(locator_properties, locator_type, max_time_out):
-                self.log.info(
-                    "Element found with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
-                return True
-            else:
-                self.log.error(
-                    "Element not found with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
-                return False
-        except:
-            self.log.error("Exception occurred during element identification.")
-            return False
-
-    def is_element_clickable(self, locator_properties, locator_type="xpath", max_time_out=10):
-
-        """
-        This method is used to return the boolean value for element clickable
-        :param locator_properties: it takes locator string as parameter
-        :param locator_type: it takes locator type as parameter
-        :param max_time_out: this is the maximum time to wait for particular element
-        :return: it returns the boolean value according to the element clickable or not
-        """
-
-        try:
-            if self.wait_for_element_to_be_clickable(locator_properties, locator_type, max_time_out):
-                self.log.info(
-                    "Element is clickable with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
-                return True
-            else:
-                self.log.error(
-                    "Element is not clickable with locator_properties: " + locator_properties + " and locator_type: " + locator_type)
-                return False
-        except:
-            self.log.error("Exception occurred during element identification.")
-            return False
 
     def get_element(self, locator_properties, locator_type="xpath", max_time_out=10):
 
@@ -391,8 +416,25 @@ class UIHelpers():
         except:
             self.log.error("Exception occurred during mouse click action.")
 
-    def mouse_click_action_on_element_present(self, locator_properties, locator_type="xpath", max_time_out=10):
+    def scroll_into_element(self, locator_properties, locator_type="xpath", max_time_out=10):
+        """
+        This method is used to scroll to invisible element in a dropdown
+        :param locator_properties: it takes locator string as parameter
+        :param locator_type: it takes locator type as parameter
+        :param max_time_out: this is the maximum time to wait for particular element
+        :return: it returns nothing
+        """
 
+        try:
+            element = self.get_element(locator_properties, locator_type, max_time_out)
+            self.driver.execute_script("return arguments[0].scrollIntoView();", element)
+            if self.wait_for_element_to_be_present(locator_properties, locator_type, max_time_out):
+                self.log.info("Clicked on the element with locator_properties: " + locator_properties +
+                              " and locator_type: " + locator_type)
+        except:
+            self.log.error("Exception occurred during scrolling to element.")
+
+    def mouse_click_action_on_element_present(self, locator_properties, locator_type="xpath", max_time_out=10):
         """
         This method is used to perform mouse click action according to the locator type and property
         :param locator_properties: it takes locator string as parameter
@@ -471,8 +513,8 @@ class UIHelpers():
         :return: it return boolean value according to verification
         """
 
-        self.log.info("Actual Text From Application Web UI --> :: " + actual_text)
-        self.log.info("Expected Text From Application Web UI --> :: " + expected_text)
+        self.log.info("Actual Text --> :: " + actual_text)
+        self.log.info("Expected Text --> :: " + expected_text)
 
         if expected_text.lower() in actual_text.lower():
             self.log.info("### VERIFICATION TEXT CONTAINS !!!")
@@ -490,8 +532,8 @@ class UIHelpers():
         :return: it return boolean value according to verification
         """
 
-        self.log.info("Actual Text From Application Web UI --> :: " + actual_text)
-        self.log.info("Expected Text From Application Web UI --> :: " + expected_text)
+        self.log.info("Actual Text --> :: " + actual_text)
+        self.log.info("Expected Text --> :: " + expected_text)
 
         if expected_text.lower() == actual_text.lower():
             self.log.info("### VERIFICATION TEXT MATCHED !!!")
@@ -508,7 +550,7 @@ class UIHelpers():
         :return: it returns the destination directory of screenshot
         """
 
-        file_name = file_name_initials + "_" + str(round(time.time() * 1000)) + ".png"
+        file_name = file_name_initials + "." + str(round(time.time() * 1000)) + ".png"
         cur_path = os.path.abspath(os.path.dirname(__file__))
         screenshot_directory = os.path.join(cur_path, r"../Logs/Screenshots/")
 
@@ -587,3 +629,36 @@ class UIHelpers():
     def press_action_key(self, key=Keys.ENTER):
         actions = ActionChains(self.driver)
         actions.key_down(key).key_up(key).perform()
+
+    def navigate_to_url(self, url, element):
+        """
+        This function is used to navigate to specific url
+        :return: it returns boolean value for successful navigation based on page title
+        """
+
+        flag = False
+        try:
+            self.driver.get(url)
+            if self.is_element_displayed(element):
+                flag = True
+        except:
+            flag = False
+            self.log.error("Exception occurred while navigating to the url.")
+
+        return flag
+
+    @staticmethod
+    def string_generator(string_size=8, chars=string.ascii_uppercase + string.digits):
+        """
+        This function is used to generate random string
+        :return: it returns random string
+        """
+        return ''.join(random.choice(chars) for _ in range(string_size))
+
+    @staticmethod
+    def digit_generator(string_size=10, chars=string.digits):
+        """
+        This function is used to generate random digits
+        :return: it returns random string
+        """
+        return ''.join(random.choice(chars) for _ in range(string_size))

@@ -1,10 +1,15 @@
 #### Local Commands #####
 
-## For local execution give --browser= local_chrome or local_firefox
+## For local execution give --environment=staging, prod & --browser=local_chrome, local_firefox or local_edge
 
-pytest TestScripts/test_manager.py --browser=local_chrome --alluredir ExecutionReports/ & allure serve ExecutionReports
-pytest TestScripts/test_manager.py --browser=local_firefox --alluredir ExecutionReports/ & allure serve ExecutionReports
-pytest TestScripts/test_manager.py --browser=local_edge --alluredir ExecutionReports/ & allure serve ExecutionReports
+pytest TestScripts/test_manager.py --environment=staging --browser=local_chrome --alluredir ExecutionReports/ & allure serve ExecutionReports
+pytest TestScripts/test_manager.py --environment=staging --browser=local_firefox --alluredir ExecutionReports/ & allure serve ExecutionReports
+pytest TestScripts/test_manager.py --environment=staging --browser=local_edge --alluredir ExecutionReports/ & allure serve ExecutionReports
+
+## For local execution (py.test - added new feature to latest release of pytest)
+
+py.cleanup -p && py.test --environment=staging --browser=local_chrome --alluredir ExecutionReports/ & allure serve ExecutionReports
+py.cleanup -p && py.test --environment=prod --browser=local_chrome --alluredir ExecutionReports/ & allure serve ExecutionReports
 
 py.cleanup -p
 
@@ -12,21 +17,21 @@ py.cleanup -p
 
 ## MAC
 
-pytest TestScripts/test_manager.py --platform=MAC --browser=chrome
-pytest TestScripts/test_manager.py --platform=MAC --browser=safari
-pytest TestScripts/test_manager.py --platform=MAC --browser=firefox
+py.cleanup -p && pytest TestScripts/test_manager.py --platform=MAC --browser=chrome --environment=staging --alluredir ExecutionReports/
+py.cleanup -p && pytest TestScripts/test_manager.py --platform=MAC --browser=safari --environment=staging --alluredir ExecutionReports/
+py.cleanup -p && pytest TestScripts/test_manager.py --platform=MAC --browser=firefox --environment=staging --alluredir ExecutionReports/
 
 ## WINDOWS
 
-pytest TestScripts/test_manager.py --platform=WINDOWS --browser=chrome
-pytest TestScripts/test_manager.py --platform=WINDOWS --browser=edge
-pytest TestScripts/test_manager.py --platform=WINDOWS --browser=firefox
+py.cleanup -p && pytest TestScripts/test_manager.py --platform=WINDOWS --browser=chrome --environment=staging --alluredir ExecutionReports/
+py.cleanup -p && pytest TestScripts/test_manager.py --platform=WINDOWS --browser=edge --environment=staging --alluredir ExecutionReports/
+py.cleanup -p && pytest TestScripts/test_manager.py --platform=WINDOWS --browser=firefox --environment=staging --alluredir ExecutionReports/
 
 #### Cloud Specific Commands ####
 
-pytest TestScripts/test_manager.py --browser=browserstack_mobile
-pytest TestScripts/test_manager.py --browser=browserstack_desktop
+py.cleanup -p && pytest TestScripts/test_manager.py --browser=sauce --environment=staging --alluredir ExecutionReports/
+py.cleanup -p && pytest TestScripts/test_manager.py --browser=browserstack_mobile --environment=staging --alluredir ExecutionReports/
+py.cleanup -p && pytest TestScripts/test_manager.py --browser=browserstack_desktop --environment=staging --alluredir ExecutionReports/
 
-#### Jenkins Specific (Need to work on this) ####
-
-pytest TestScripts/test_manager.py --browser=$BROWSER --platform=$PLATFORM
+#### Jenkins Specific ####
+pytest TestScripts/test_manager.py --browser=$BROWSER --platform=$PLATFORM --environment=staging --alluredir ExecutionReports/
