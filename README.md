@@ -45,5 +45,9 @@
 ### Example:
 - Open pycharm terminal (Alt+F12) and run following command to invoke the chrome browser locally on staging environment
     ```sh
-    py.cleanup -p && py.test --environment=staging --browser=local_chrome --alluredir ExecutionReports/ & allure serve ExecutionReports
+    py.cleanup -p && py.test --environment=staging --browser=local_chrome --alluredir ExecutionReports/
+    ```
+- Trigger Allure Reports
+    ```sh
+    allure serve ExecutionReports/
     ```

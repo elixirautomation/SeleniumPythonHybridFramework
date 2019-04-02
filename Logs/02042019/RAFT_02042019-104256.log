@@ -1,0 +1,52 @@
+2019-04-02 10:43:08,834 - INFO - ###### TEST EXECUTION STARTED :: test_invalid_addition ######
+2019-04-02 10:43:08,860 - INFO - Element found with locator_properties: //input[@id='sum1'] and locator_type: xpath
+2019-04-02 10:43:08,889 - INFO - Sent data to the element with locator_properties: //input[@id='sum1'] and locator_type: xpath
+2019-04-02 10:43:08,902 - INFO - Element found with locator_properties: //input[@id='sum2'] and locator_type: xpath
+2019-04-02 10:43:08,929 - INFO - Sent data to the element with locator_properties: //input[@id='sum2'] and locator_type: xpath
+2019-04-02 10:43:08,969 - INFO - Element is clickable with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2019-04-02 10:43:08,979 - INFO - Element found with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2019-04-02 10:43:09,212 - INFO - Clicked on the element with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2019-04-02 10:43:09,226 - INFO - Element found with locator_properties: //span[@id='displayvalue'] and locator_type: xpath
+2019-04-02 10:43:09,243 - INFO - The text is: '11'
+2019-04-02 10:43:09,243 - INFO - Actual Text --> :: 11
+2019-04-02 10:43:09,243 - INFO - Expected Text --> :: 12
+2019-04-02 10:43:09,243 - ERROR - ### VERIFICATION TEXT DOES NOT MATCHED !!!
+2019-04-02 10:43:09,243 - ERROR - ### VERIFICATION FAILED :: test_invalid_addition
+2019-04-02 10:43:09,296 - INFO - Screenshot saved to directory: /Users/Progressio/Documents/UniversityProject/TestAutomation/SupportLibraries/../Logs/Screenshots/test_invalid_addition.1554181989244.png
+2019-04-02 10:43:09,299 - ERROR - ### test_invalid_addition ### TEST FAILED
+2019-04-02 10:43:09,327 - INFO - ###### TEST EXECUTION STARTED :: test_valid_addition ######
+2019-04-02 10:43:09,353 - INFO - Element found with locator_properties: //input[@id='sum1'] and locator_type: xpath
+2019-04-02 10:43:09,379 - INFO - Sent data to the element with locator_properties: //input[@id='sum1'] and locator_type: xpath
+2019-04-02 10:43:09,388 - INFO - Element found with locator_properties: //input[@id='sum2'] and locator_type: xpath
+2019-04-02 10:43:09,419 - INFO - Sent data to the element with locator_properties: //input[@id='sum2'] and locator_type: xpath
+2019-04-02 10:43:09,449 - INFO - Element is clickable with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2019-04-02 10:43:09,458 - INFO - Element found with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2019-04-02 10:43:09,679 - INFO - Clicked on the element with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2019-04-02 10:43:09,693 - INFO - Element found with locator_properties: //span[@id='displayvalue'] and locator_type: xpath
+2019-04-02 10:43:09,705 - INFO - The text is: '15'
+2019-04-02 10:43:09,705 - INFO - Actual Text --> :: 15
+2019-04-02 10:43:09,705 - INFO - Expected Text --> :: 15
+2019-04-02 10:43:09,705 - INFO - ### VERIFICATION TEXT MATCHED !!!
+2019-04-02 10:43:09,705 - INFO - ### VERIFICATION SUCCESSFUL :: test_valid_addition
+2019-04-02 10:43:09,706 - INFO - ### test_valid_addition### TEST SUCCESSFUL
+2019-04-02 10:43:09,719 - INFO - ###### TEST EXECUTION STARTED :: test_valid_user_input ######
+2019-04-02 10:43:09,736 - INFO - Element found with locator_properties: //input[@id='user-message'] and locator_type: xpath
+2019-04-02 10:43:09,788 - INFO - Sent data to the element with locator_properties: //input[@id='user-message'] and locator_type: xpath
+2019-04-02 10:43:09,822 - INFO - Element is clickable with locator_properties: //button[text()='Show Message'] and locator_type: xpath
+2019-04-02 10:43:09,833 - INFO - Element found with locator_properties: //button[text()='Show Message'] and locator_type: xpath
+2019-04-02 10:43:10,061 - INFO - Clicked on the element with locator_properties: //button[text()='Show Message'] and locator_type: xpath
+2019-04-02 10:43:10,074 - INFO - Element found with locator_properties: //div[@id='user-message']//following::span[@id='display'] and locator_type: xpath
+2019-04-02 10:43:10,086 - INFO - The text is: 'Staging Selenium Learner'
+2019-04-02 10:43:10,086 - INFO - Actual Text --> :: Staging Selenium Learner
+2019-04-02 10:43:10,086 - INFO - Expected Text --> :: Staging Selenium Learner
+2019-04-02 10:43:10,086 - INFO - ### VERIFICATION TEXT MATCHED !!!
+2019-04-02 10:43:10,086 - INFO - ### VERIFICATION SUCCESSFUL :: test_valid_user_input
+2019-04-02 10:43:10,086 - INFO - ### test_valid_user_input### TEST SUCCESSFUL
+2019-04-02 10:43:10,101 - INFO - ###### TEST EXECUTION STARTED :: test_verify_main_screen_elements ######
+2019-04-02 10:43:10,148 - INFO - Element found with locator_properties: //input[@id='user-message'] and locator_type: xpath
+2019-04-02 10:43:10,154 - INFO - Element found with locator_properties: //button[text()='Show Message'] and locator_type: xpath
+2019-04-02 10:43:10,165 - INFO - Element found with locator_properties: //input[@id='sum1'] and locator_type: xpath
+2019-04-02 10:43:10,171 - INFO - Element found with locator_properties: //input[@id='sum2'] and locator_type: xpath
+2019-04-02 10:43:10,175 - INFO - Element found with locator_properties: //button[text()='Get Total'] and locator_type: xpath
+2019-04-02 10:43:10,175 - INFO - ### VERIFICATION SUCCESSFUL :: test_verify_main_screen_elements
+2019-04-02 10:43:10,175 - INFO - ### test_verify_main_screen_elements### TEST SUCCESSFUL

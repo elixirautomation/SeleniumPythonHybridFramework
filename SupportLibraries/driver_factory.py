@@ -8,6 +8,9 @@ from selenium.webdriver.firefox.options import Options as ffOptions
 from selenium.webdriver.edge.options import Options as edgeOptions
 from FrameworkUtilities.config_utility import ConfigUtility
 from FrameworkUtilities.logger_utility import custom_logger
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.microsoft import EdgeDriverManager
 
 
 class DriverFactory:
@@ -128,7 +131,7 @@ class DriverFactory:
             automate_key = self.prop.get('CLOUD', 'bs_key')
             url = "http://" + username + ":" + automate_key + "@hub-cloud.browserstack.com/wd/hub"
 
-            caps={}
+            caps = {}
 
             caps['device'] = 'Google Pixel'
             caps['os_version'] = '7.1'
@@ -140,15 +143,15 @@ class DriverFactory:
 
         elif self.browser == "local_edge":
 
-            driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/MicrosoftWebDriver.exe")
-            os.environ["webdriver.edge.driver"] = driver_location
+            # driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/MicrosoftWebDriver.exe")
+            # os.environ["webdriver.edge.driver"] = driver_location
 
             edge_capabilities = webdriver.DesiredCapabilities.EDGE
-            driver = webdriver.Edge(capabilities=edge_capabilities, executable_path=driver_location)
+            driver = webdriver.Edge(capabilities=edge_capabilities, executable_path=EdgeDriverManager().install())
 
         elif self.browser == "local_firefox":
-            driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/geckodriver.exe")
-            os.environ["webdriver.gecko.driver"] = driver_location
+            # driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/geckodriver.exe")
+            # os.environ["webdriver.gecko.driver"] = driver_location
 
             browser_profile = webdriver.FirefoxProfile()
             browser_profile.set_preference("dom.webnotifications.enabled", False)
@@ -157,13 +160,18 @@ class DriverFactory:
             options.log.level = 'trace'
             firefox_capabilities = webdriver.DesiredCapabilities.FIREFOX
             firefox_capabilities['marionette'] = True
-            driver = webdriver.Firefox(capabilities=firefox_capabilities, executable_path=driver_location,
-                                       options=options, log_path='/tmp/geckodriver.log',
+
+            # driver = webdriver.Firefox(capabilities=firefox_capabilities, executable_path=driver_location,
+            #                            options=options, log_path='/tmp/geckodriver.log',
+            #                            firefox_profile=browser_profile)
+
+            driver = webdriver.Firefox(capabilities=firefox_capabilities, executable_path=GeckoDriverManager().install(),
+                                       options=options, service_log_path='/tmp/geckodriver.log',
                                        firefox_profile=browser_profile)
 
         elif self.browser == "local_chrome":
-            driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/chromedriver.exe")
-            os.environ["webdriver.chrome.driver"] = driver_location
+            # driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/chromedriver.exe")
+            # os.environ["webdriver.chrome.driver"] = driver_location
 
             options = chromeOptions()
             options.add_argument("--disable-infobars")
@@ -177,11 +185,13 @@ class DriverFactory:
             options.add_experimental_option('prefs', {'credentials_enable_service': False,
                                                       'profile': {'password_manager_enabled': False}})
 
-            driver = webdriver.Chrome(driver_location, options=options)
+            driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+
+            # driver = webdriver.Chrome(driver_location, options=options)
 
         else:
-            driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/chromedriver.exe")
-            os.environ["webdriver.chrome.driver"] = driver_location
+            # driver_location = os.path.join(self.cur_path, r"../ExternalDrivers/chromedriver.exe")
+            # os.environ["webdriver.chrome.driver"] = driver_location
 
             options = chromeOptions()
             options.add_argument("--disable-infobars")
@@ -195,7 +205,9 @@ class DriverFactory:
             options.add_experimental_option('prefs', {'credentials_enable_service': False,
                                                       'profile': {'password_manager_enabled': False}})
 
-            driver = webdriver.Chrome(driver_location, options=options)
+            driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+
+            # driver = webdriver.Chrome(driver_location, options=options)
 
         if "chrome" in self.browser:
             driver.fullscreen_window()

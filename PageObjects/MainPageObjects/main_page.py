@@ -52,6 +52,7 @@ class MainPage(BaseHelpers):
     def verify_addition_functionality(self, num1, num2, expected):
         """
         This function is used to verify addition functionality
+        :param expected: expected value
         :param num1: it takes number A input as test parameter
         :param num2: it takes number B input as test parameter
         :return: returns boolean va;ue based on addition result

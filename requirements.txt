@@ -10,3 +10,4 @@ allure-pytest
 pyexcel
 pyexcel-xls
 pyexcel-xlsx
+webdriver_manager

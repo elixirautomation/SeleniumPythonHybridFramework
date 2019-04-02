@@ -2,14 +2,14 @@
 
 ## For local execution give --environment=staging, prod & --browser=local_chrome, local_firefox or local_edge
 
-pytest TestScripts/test_manager.py --environment=staging --browser=local_chrome --alluredir ExecutionReports/ & allure serve ExecutionReports
-pytest TestScripts/test_manager.py --environment=staging --browser=local_firefox --alluredir ExecutionReports/ & allure serve ExecutionReports
-pytest TestScripts/test_manager.py --environment=staging --browser=local_edge --alluredir ExecutionReports/ & allure serve ExecutionReports
+pytest TestScripts/test_manager.py --environment=staging --browser=local_chrome --alluredir ExecutionReports/
+pytest TestScripts/test_manager.py --environment=staging --browser=local_firefox --alluredir ExecutionReports/
+pytest TestScripts/test_manager.py --environment=staging --browser=local_edge --alluredir ExecutionReports/
 
 ## For local execution (py.test - added new feature to latest release of pytest)
 
-py.cleanup -p && py.test --environment=staging --browser=local_chrome --alluredir ExecutionReports/ & allure serve ExecutionReports
-py.cleanup -p && py.test --environment=prod --browser=local_chrome --alluredir ExecutionReports/ & allure serve ExecutionReports
+py.cleanup -p && py.test --environment=staging --browser=local_chrome --alluredir ExecutionReports/
+py.cleanup -p && py.test --environment=prod --browser=local_chrome --alluredir ExecutionReports/
 
 py.cleanup -p
 
@@ -35,3 +35,6 @@ py.cleanup -p && pytest TestScripts/test_manager.py --browser=browserstack_deskt
 
 #### Jenkins Specific ####
 pytest TestScripts/test_manager.py --browser=$BROWSER --platform=$PLATFORM --environment=staging --alluredir ExecutionReports/
+
+#### Trigger Allure Reports
+allure serve ExecutionReports
