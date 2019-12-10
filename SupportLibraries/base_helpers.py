@@ -3,11 +3,8 @@ This module contains common reusable functions.
 """
 
 from traceback import print_stack
-from SupportLibraries.ui_helpers import UIHelpers
 from configparser import ConfigParser
-import imaplib
-import email
-import re
+from SupportLibraries.ui_helpers import UIHelpers
 
 
 class BaseHelpers(UIHelpers):

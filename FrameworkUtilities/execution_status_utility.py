@@ -1,18 +1,19 @@
 """ This module contains the methods to conclude the execution status. """
 
 import logging
-from traceback import print_stack
-from SupportLibraries.ui_helpers import UIHelpers
-import FrameworkUtilities.logger_utility as log_utils
+
 import allure
+import pytest
+
+import FrameworkUtilities.logger_utility as log_utils
+from SupportLibraries.ui_helpers import UIHelpers
 
 
 class ExecutionStatus(UIHelpers):
-
     """ This class contains the methods to conclude the execution status. """
 
     log = log_utils.custom_logger(logging.INFO)
-    
+
     def __init__(self, driver):
         super().__init__(driver)
         self.result_list = []
@@ -28,23 +29,29 @@ class ExecutionStatus(UIHelpers):
 
         try:
             if result is not None:
+
                 if result:
                     self.result_list.append("PASS")
-                    self.log.info("### VERIFICATION SUCCESSFUL :: " + test_name)
+                    self.log.info("### STEP SUCCESSFUL :: " + test_name)
                 else:
+                    image = self.take_screenshots(test_name)
+                    error = "### STEP FAILED :: " + test_name
                     self.result_list.append("FAIL")
-                    self.log.error("### VERIFICATION FAILED :: " + test_name)
-                    allure.attach.file(self.take_screenshots(test_name), attachment_type=allure.attachment_type.PNG)
+                    self.log.error(error)
+                    allure.attach.file(image, attachment_type=allure.attachment_type.PNG)
 
             else:
+                image = self.take_screenshots(test_name)
+                error = "### STEP FAILED :: " + test_name
                 self.result_list.append("FAIL")
-                self.log.error("### VERIFICATION FAILED :: " + test_name)
-                allure.attach.file(self.take_screenshots(test_name), attachment_type=allure.attachment_type.PNG)
+                self.log.error(error)
+                allure.attach.file(image, attachment_type=allure.attachment_type.PNG)
+
         except Exception as ex:
+            image = self.take_screenshots(test_name)
             self.result_list.append("FAIL")
-            self.log.error("### EXCEPTION OCCURRED :: ", ex)
-            allure.attach.file(self.take_screenshots(test_name), attachment_type=allure.attachment_type.PNG)
-            print_stack()
+            self.log.error("### EXCEPTION OCCURRED :: {}".format(ex))
+            allure.attach.file(image, attachment_type=allure.attachment_type.PNG)
 
     def mark(self, test_step, result):
 
@@ -58,7 +65,6 @@ class ExecutionStatus(UIHelpers):
         self.set_result(result=result, test_name=test_step)
 
     def mark_final(self, result, test_step):
-
         """
         This method handles final assertion and saves the result for final mark.
         :param test_step: it takes the test case name value
@@ -68,12 +74,15 @@ class ExecutionStatus(UIHelpers):
 
         self.set_result(result, test_step)
 
-        if "FAIL" in self.result_list:
-            self.log.error("### " + test_step + " ### TEST FAILED")
-            self.result_list.clear()
-            assert True is False, "### " + test_step + " ### TEST FAILED"
+        # noinspection PyBroadException
+        try:
+            if "FAIL" in self.result_list:
+                self.result_list.clear()
+                assert True is False
 
-        else:
-            self.log.info("### " + test_step + "### TEST SUCCESSFUL")
-            self.result_list.clear()
-            assert True is True, "### " + test_step + "### TEST SUCCESSFUL"
+            else:
+                self.result_list.clear()
+                assert True is True, "### TEST SUCCESSFUL :: " + test_step
+
+        except Exception:
+            pytest.fail("### TEST FAILED :: " + test_step, pytrace=False)

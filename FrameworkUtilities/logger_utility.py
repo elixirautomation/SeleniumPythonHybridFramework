@@ -1,9 +1,8 @@
 """ This module contains the methods for logging. """
 
+import os
 import logging
 import inspect
-import os
-import sys
 from datetime import datetime
 
 
@@ -28,13 +27,13 @@ def custom_logger(log_level=logging.INFO):
     if not os.path.exists(date_dir):
         os.mkdir(date_dir)
 
-    current_time = datetime.strftime(datetime.now(), '%d%m%Y-%H%M%S')  # Time
+    current_time = datetime.strftime(datetime.now(), '%d%m%Y-%H%M%S')
 
     if log_filename is None:
         temp_file = "RAFT_" + current_time + ".log"
         log_filename = os.path.join(date_dir, temp_file)
 
-    caller_name = inspect.stack()[1][1] + " - \tLN:" + str(inspect.stack()[1][2])  # Caller Method
+    caller_name = inspect.stack()[1][1] + " - \tLN:" + str(inspect.stack()[1][2])
     caller_name = str(caller_name)
 
     logging.basicConfig(filename=log_filename, format='%(asctime)s - %(levelname)s - %(message)s')

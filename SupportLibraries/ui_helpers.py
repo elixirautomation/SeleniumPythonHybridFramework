@@ -18,15 +18,14 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class UIHelpers:
-
     """
     UI Helpers class to contains all ui helper methods.
     """
 
-    log = log_utils.custom_logger(logging.INFO)
-
     def __init__(self, driver):
         self.driver = driver
+
+    log = log_utils.custom_logger(logging.INFO)
 
     def get_title(self):
 
@@ -371,7 +370,8 @@ class UIHelpers:
             print_stack()
         return result_text
 
-    def get_attribute_value_from_element(self, attribute_name, locator_properties, locator_type="xpath", max_time_out=10):
+    def get_attribute_value_from_element(self, attribute_name, locator_properties, locator_type="xpath",
+                                         max_time_out=10):
 
         """
         This method is used to get the element's attribute value according to the locator type and property
@@ -513,14 +513,12 @@ class UIHelpers:
         :return: it return boolean value according to verification
         """
 
-        self.log.info("Actual Text --> :: " + actual_text)
-        self.log.info("Expected Text --> :: " + expected_text)
-
         if expected_text.lower() in actual_text.lower():
-            self.log.info("### VERIFICATION TEXT CONTAINS !!!")
+            self.log.info("### TEXT CONTAINS VERIFICATION PASSED !!!")
             return True
         else:
-            self.log.info("### VERIFICATION TEXT DOES NOT CONTAINS !!!")
+            self.log.error("### TEXT VERIFICATION FAILED:\nActual Text --> {}\nExpected Text --> {}"
+                           .format(actual_text, expected_text))
             return False
 
     def verify_text_match(self, actual_text, expected_text):
@@ -532,14 +530,12 @@ class UIHelpers:
         :return: it return boolean value according to verification
         """
 
-        self.log.info("Actual Text --> :: " + actual_text)
-        self.log.info("Expected Text --> :: " + expected_text)
-
         if expected_text.lower() == actual_text.lower():
-            self.log.info("### VERIFICATION TEXT MATCHED !!!")
+            self.log.info("### TEXT VERIFICATION PASSED !!!")
             return True
         else:
-            self.log.error("### VERIFICATION TEXT DOES NOT MATCHED !!!")
+            self.log.error("### TEXT VERIFICATION FAILED:\nActual Text --> {}\nExpected Text --> {}"
+                           .format(actual_text, expected_text))
             return False
 
     def take_screenshots(self, file_name_initials):

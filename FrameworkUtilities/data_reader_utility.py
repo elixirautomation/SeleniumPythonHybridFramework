@@ -1,15 +1,18 @@
 """ This module is used for developing/ accessing data reader utility. """
 
 import os
-import traceback
+import logging
 import pyexcel as exc
 from FrameworkUtilities.config_utility import ConfigUtility
+import FrameworkUtilities.logger_utility as log_utils
 
 
 class DataReader:
     """
     This class includes basic reusable data helpers.
     """
+
+    log = log_utils.custom_logger(logging.INFO)
     config = ConfigUtility()
 
     def __init__(self):
@@ -31,7 +34,7 @@ class DataReader:
             if ui_file_path is not None:
                 records = exc.iget_records(file_name=ui_file_path)
         except Exception as ex:
-            traceback.print_exc(ex)
+            self.log.error("Failed to load test data.", ex)
 
         return records
 
@@ -57,6 +60,6 @@ class DataReader:
                         continue
 
         except Exception as ex:
-            traceback.print_exc(ex)
+            self.log.error("Failed to get test data.", ex)
 
         return value
