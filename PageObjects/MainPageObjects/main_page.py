@@ -4,7 +4,6 @@ from SupportLibraries.base_helpers import BaseHelpers
 
 
 class MainPage(BaseHelpers):
-
     """This class defines the method and element identifications for main page."""
 
     def __init__(self, driver):
@@ -26,9 +25,9 @@ class MainPage(BaseHelpers):
         """
 
         _xpath_prop = "xpath"
-        locator_dict = {self.user_message_input:_xpath_prop, self.show_message_button:_xpath_prop,
-                        self.enter_first_value:_xpath_prop, self.enter_second_value:_xpath_prop,
-                        self.get_total_button:_xpath_prop}
+        locator_dict = {self.user_message_input: _xpath_prop, self.show_message_button: _xpath_prop,
+                        self.enter_first_value: _xpath_prop, self.enter_second_value: _xpath_prop,
+                        self.get_total_button: _xpath_prop}
 
         result = self.verify_elements_located(locator_dict)
 

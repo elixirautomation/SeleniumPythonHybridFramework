@@ -1,4 +1,5 @@
 import pytest
+
 from SupportLibraries.driver_factory import DriverFactory
 
 
@@ -12,22 +13,6 @@ def get_driver(request, browser, platform, environment):
         setattr(cls.obj, "driver", driver)
     yield
     driver.quit()
-
-
-@pytest.fixture(scope="session")
-def rp_logger(request):
-    import logging
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
-    if hasattr(request.node.config, 'py_test_service'):
-        from pytest_reportportal import RPLogger, RPLogHandler
-        logging.setLoggerClass(RPLogger)
-        rp_handler = RPLogHandler(request.node.config.py_test_service)
-    else:
-        import sys
-        rp_handler = logging.StreamHandler(sys.stdout)
-    rp_handler.setLevel(logging.INFO)
-    return logger
 
 
 def pytest_addoption(parser):

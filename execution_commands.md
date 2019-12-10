@@ -8,6 +8,12 @@ py.cleanup -p && py.test --environment=prod --browser=local_firefox --alluredir 
 
 ```
 
+#### Run Test Suites (Mark your test cases with test suites)
+```sh
+py.cleanup -p && py.test -m smoke --environment=staging --browser=local_chrome --alluredir ExecutionReports/
+py.cleanup -p && py.test -m regression --environment=staging --browser=local_chrome --alluredir ExecutionReports/
+```
+
 #### Grid Specific Commands
 
 ##### --environment={staging, prod} --browser={chrome, firefox, safari}
@@ -41,23 +47,5 @@ py.cleanup -p && py.test --browser=browserstack_web --environment=staging --allu
 
 ```sh
 allure serve ExecutionReports
-```
-
-#### Report Portal Commands
-
-```sh
-py.cleanup -p && py.test --environment=staging --browser=local_chrome --reportportal
-```
-
-#### Combined Execution for Report Portal and Allure
-
-```sh
-py.cleanup -p && py.test --environment=staging --browser=local_chrome --alluredir ExecutionReports/ --reportportal
-```
-
-#### Run Test Suites (Mark your test cases with test suites)
-```sh
-py.cleanup -p && py.test -m smoke --environment=staging --browser=local_chrome --alluredir ExecutionReports/
-py.cleanup -p && py.test -m regression --environment=staging --browser=local_chrome --alluredir ExecutionReports/
 ```
 

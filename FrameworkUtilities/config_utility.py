@@ -2,12 +2,12 @@
 This module contains config utility functions.
 """
 
+import os
+import time
+import logging
 from traceback import print_stack
 from configparser import ConfigParser
 import FrameworkUtilities.logger_utility as log_utils
-import logging
-import os
-import time
 
 
 class ConfigUtility:
@@ -35,7 +35,6 @@ class ConfigUtility:
 
         except Exception as ex:
             self.log.error("Failed to load ini/properties file.", ex)
-            print_stack()
 
         return config
 
@@ -47,6 +46,7 @@ class ConfigUtility:
         :param property_value: property value to set
         :return: it returns boolean value for successful change property operation
         """
+        flag = False
         try:
             config = self.load_properties_file()
             config[section][property_name] = property_value
@@ -55,10 +55,9 @@ class ConfigUtility:
                 config.write(configfile)
 
             time.sleep(1)
-
-            return True
+            flag = True
 
         except Exception as ex:
             self.log.error("Failed to change ini/properties file.", ex)
-            print_stack()
-            return False
+
+        return flag

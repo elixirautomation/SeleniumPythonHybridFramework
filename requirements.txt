@@ -5,7 +5,6 @@ pycmd
 
 # Reporting
 allure-pytest
-pytest-reportportal
 
 # Data Driven
 pyexcel
