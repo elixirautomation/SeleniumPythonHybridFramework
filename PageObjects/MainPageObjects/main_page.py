@@ -17,6 +17,7 @@ class MainPage(BaseHelpers):
     enter_second_value = "//input[@id='sum2']"
     get_total_button = "//button[text()='Get Total']"
     show_total_text = "//span[@id='displayvalue']"
+    pop_up_button = "//a[@class='at4-close']"
 
     def verify_main_screen_elements(self):
         """
@@ -39,6 +40,7 @@ class MainPage(BaseHelpers):
         :param user_input: it takes message input as test parameter
         :return: return boolean value based on show message text
         """
+        self.mouse_click_action(self.pop_up_button)
 
         self.enter_text_action(user_input, self.user_message_input)
         self.mouse_click_action(self.show_message_button)
